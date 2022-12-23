@@ -1,6 +1,9 @@
 import { useState, useEffect, Suspense } from 'react';
 import { useLocation, useParams, Outlet } from 'react-router-dom';
 import { InfinitySpin } from 'react-loader-spinner';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import toastParams from '../helpers/ToastParams';
 import { getMovieById } from 'API/moviesAPI';
 import GoBackBtn from 'components/goBackBtn/goBackBtn';
 
@@ -99,6 +102,11 @@ const MovieDetails = () => {
           </div>
         </>
       )}
+      {error &&
+        toast.error(
+          'Sorry, something went wrong.🦄 Please try again',
+          toastParams
+        )}
     </main>
   );
 };

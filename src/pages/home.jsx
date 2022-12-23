@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import toastParams from '../helpers/ToastParams';
 import { MoviesList } from '../components/moviesList/moviesList';
 import { getTrendingMovies } from 'API/moviesAPI';
 
@@ -23,6 +26,11 @@ const Home = () => {
   return (
     <main>
       <MoviesList movies={trendingMovies} location={location} />
+      {error &&
+        toast.error(
+          'Sorry, something went wrong.🦄 Please try again',
+          toastParams
+        )}
     </main>
   );
 };

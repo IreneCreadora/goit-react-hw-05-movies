@@ -48,6 +48,11 @@ const Movies = () => {
     <main>
       <SearchBox value={searchQuery} onChange={updateQuery} />
       <MoviesList movies={searchMovies} location={location} />
+      {error &&
+        toast.error(
+          'Sorry, something went wrong.🦄 Please try again',
+          toastParams
+        )}
     </main>
   );
 };
