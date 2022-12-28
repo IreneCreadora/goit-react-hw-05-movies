@@ -11,7 +11,17 @@ export const getTrendingMovies = async () => {
   };
   try {
     const { data } = await axios.get(`/trending/movie/day?`, options);
-    return data.results;
+    const validData = data.results.map(
+      ({ id, title, poster_path, vote_average }) => ({
+        id,
+        poster_path: poster_path
+          ? `https://image.tmdb.org/t/p/w500${poster_path}`
+          : `https://sdlatlas.com/public/img/thumbnail.jpg`,
+        title: title ? title : 'name not found',
+        vote_average: vote_average.toFixed(1),
+      })
+    );
+    return validData;
   } catch (error) {
     console.log('Something wrong with API', error.message);
   }
@@ -27,7 +37,17 @@ export const getMovies = async (searchQuery, currentPage) => {
   };
   try {
     const { data } = await axios.get(`/search/movie?`, options);
-    return data.results;
+    const validData = data.results.map(
+      ({ id, title, poster_path, vote_average }) => ({
+        id,
+        poster_path: poster_path
+          ? `https://image.tmdb.org/t/p/w500${poster_path}`
+          : `https://sdlatlas.com/public/img/thumbnail.jpg`,
+        title: title ? title : 'name not found',
+        vote_average: vote_average.toFixed(1),
+      })
+    );
+    return validData;
   } catch (error) {
     console.error('Something wrong with API', error.message);
   }
@@ -41,7 +61,6 @@ export const getMovieById = async id => {
   };
   try {
     const { data } = await axios.get(`/movie/${id}?`, options);
-
     return data;
   } catch (error) {
     console.error('Something wrong with API', error.message);

@@ -5,14 +5,18 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import toastParams from '../helpers/ToastParams';
 import { SearchBox } from '../components/searchBox/searchBox';
-import { getMovies } from 'API/moviesAPI';
+import { getMovies } from '../services/API/moviesAPI';
 
 const Movies = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const searchQuery = searchParams.get('query') ?? '';
   const [searchMovies, setSearchMovies] = useState([]);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState('');
   const location = useLocation();
+
+  useEffect(() => {
+    error && toast.error(error, toastParams);
+  }, [error]);
 
   useEffect(() => {
     if (!searchQuery) {
@@ -21,7 +25,7 @@ const Movies = () => {
     }
 
     if (searchQuery.trim() === '' || searchQuery === '') {
-      toast.error('🦄Lets start the search', toastParams);
+      setError('🦄Lets start the search');
       return;
     }
 
@@ -29,9 +33,9 @@ const Movies = () => {
       .then(movies => {
         setSearchMovies(movies);
         if (movies.length === 0) {
-          toast.error('🦄Lets start the search', toastParams);
+          setError('Sorry, something went wrong.🦄 Please try again');
         }
-        setError(null);
+        setError('');
       })
       .catch(error => {
         console.log(error.message);
@@ -48,11 +52,6 @@ const Movies = () => {
     <main>
       <SearchBox value={searchQuery} onChange={updateQuery} />
       <MoviesList movies={searchMovies} location={location} />
-      {error &&
-        toast.error(
-          'Sorry, something went wrong.🦄 Please try again',
-          toastParams
-        )}
     </main>
   );
 };

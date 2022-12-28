@@ -23,7 +23,7 @@ MoviesList.propTypes = {
       id: PropTypes.number.isRequired,
       title: PropTypes.string.isRequired,
       poster_path: PropTypes.string.isRequired,
-      vote_average: PropTypes.number.isRequired,
+      vote_average: PropTypes.string,
     })
   ).isRequired,
   location: PropTypes.object.isRequired,

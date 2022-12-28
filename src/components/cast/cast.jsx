@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getCasts } from 'API/moviesAPI';
+import { getCasts } from '../../services/API/moviesAPI';
 import { Wrapper, Actor } from './cast.styled';
 
 const Cast = () => {

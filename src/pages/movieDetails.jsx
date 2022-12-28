@@ -4,7 +4,7 @@ import { InfinitySpin } from 'react-loader-spinner';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import toastParams from '../helpers/ToastParams';
-import { getMovieById } from 'API/moviesAPI';
+import { getMovieById } from '../services/API/moviesAPI';
 import GoBackBtn from 'components/goBackBtn/goBackBtn';
 
 import {
@@ -19,17 +19,21 @@ import {
 
 const MovieDetails = () => {
   const [movie, setMovie] = useState(null);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState('');
   const { id } = useParams();
   const location = useLocation();
 
   const backLinkHref = location.state?.from ?? '/';
 
   useEffect(() => {
+    error && toast.error(error, toastParams);
+  }, [error]);
+
+  useEffect(() => {
     getMovieById(Number(id))
       .then(movie => {
         setMovie(movie);
-        setError(null);
+        setError('');
       })
       .catch(error => {
         setError(error.message);
@@ -102,11 +106,6 @@ const MovieDetails = () => {
           </div>
         </>
       )}
-      {error &&
-        toast.error(
-          'Sorry, something went wrong.🦄 Please try again',
-          toastParams
-        )}
     </main>
   );
 };
